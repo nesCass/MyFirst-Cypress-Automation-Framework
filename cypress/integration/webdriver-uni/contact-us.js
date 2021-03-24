@@ -3,7 +3,8 @@ import Contact_Us_Po from "../../support/pageObjects/webdriver-uni/Contact_Us_PO
 
 ///<reference types ='Cypress' />
 
-describe(`Test 'Contact us' form`, () => {
+describe(`Test 'Contact us' form`, { browser: "!chrome" }, () => {
+  //ignore all test if cypress is running via chrome
   Cypress.config("defaultCommandTimeout", 60000);
   const homepage_PO = new Homepage_Po();
   const contact_Us_PO = new Contact_Us_Po();
@@ -75,12 +76,15 @@ describe(`Test 'Contact us' form`, () => {
     );
   });
   it(`Should not be able to submit a successful submission via contact us form as all field are required`, () => {
-    //koristimo podatke koje smo ucitali iz fajla - uz pomoc ALIASA (DRUGI NACIN)
+    if (Cypress.isBrowser("firefox")) {
+      console.log("test will not execute in firefox");
+    } else {
+      //koristimo podatke koje smo ucitali iz fajla - uz pomoc ALIASA (DRUGI NACIN)
 
-    // DRUGI naci - alias (koristim doel udrugom testu)
-    cy.fixture("example").as("ivica");
+      // DRUGI naci - alias (koristim doel udrugom testu)
+      cy.fixture("example").as("ivica");
 
-    /*
+      /*
     cy.get("@ivica").then((user) => {
       cy.get('[name="first_name"]').type(user.first_name);
       cy.get('[name="last_name"]').type(user.last_name);
@@ -91,7 +95,7 @@ describe(`Test 'Contact us' form`, () => {
     //assert
     cy.get("body").contains("Error: all fields are required");
 */
-    /*  //custom command
+      /*  //custom command
     cy.get("@ivica").then((user) => {
       cy.webdriverUni_ContactForm_Submission(
         user.first_name,
@@ -103,16 +107,17 @@ describe(`Test 'Contact us' form`, () => {
       );
     });*/
 
-    //POM
-    cy.get("@ivica").then((user) => {
-      contact_Us_PO.contactForm_Submission(
-        user.first_name,
-        user.last_name,
-        null, //ovo je razno polje u email adresi
-        "Ovo je moj komentar ...a moze i iz .json fajla da vuces",
-        "body",
-        "Error: all fields are required"
-      );
-    });
+      //POM
+      cy.get("@ivica").then((user) => {
+        contact_Us_PO.contactForm_Submission(
+          user.first_name,
+          user.last_name,
+          null, //ovo je razno polje u email adresi
+          "Ovo je moj komentar ...a moze i iz .json fajla da vuces",
+          "body",
+          "Error: all fields are required"
+        );
+      });
+    }
   });
 });
