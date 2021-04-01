@@ -22,8 +22,13 @@ import "./commands";
 // require('./commands')
 
 // ovaj kod nam sakriva dodatne info (xhr info) nakon izvrsenja testova
+// Cypress.Server.defaults({
+//   whitelist: (xhr) => {
+//     return true;
+//   },
+// });
+
+//ovaj kod nam uglanja xhr ifo
 Cypress.Server.defaults({
-  whitelist: (xhr) => {
-    return true;
-  },
+  ignore: (xhr) => true,
 });
