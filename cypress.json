@@ -3,6 +3,13 @@
   "chromeWebSecurity": false,
   "defaultCommandTimeout": 4500,
   "pageLoadTimeout": 65000,
+
+  "retries": {
+    "runMode": 1,
+
+    "openMode": 1
+  },
+
   "env": {
     "first_name": "Aleksandra",
     "webdriveruni_homepage": "http://www.webdriveruniversity.com/"
